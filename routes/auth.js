@@ -50,7 +50,13 @@ router.post('/login', async(req, res) => {
                 .json({ success: false, message: "user not existed" });
 
         if(await argon2.verify(user.password, password))
-            return res.status(200).json({ success: true, message: "authenticated", access_token: user._id });
+            return res.status(200).json({ 
+                success: true, 
+                message: "authenticated", 
+                data: {
+                    access_token: user._id,
+                    username: username
+                } });
         else
             return res.status(400).json({ success: false, message: "incorrect password" });
     } catch(err) {
